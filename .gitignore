@@ -1,48 +1,40 @@
+# Compiled class file
+*.class
+
 # Eclipse
 .project
 .classpath
 .settings/
 
-#maven
-target/
-dependency-reduced-pom.xml
-pom.xml.versionsBackup
-.factorypath
-
-#class
-out/
-
-# Gradel
-.gradle/
-build/
-
-# IDEA
-.idea/
+# Intellij
 *.ipr
 *.iml
 *.iws
+.idea/
 
-# temp ignore
+# Maven
+target/
+
+# Gradle
+build
+.gradle
+
+# Log file
 *.log
-*.cache
-*.diff
-*.patch
-*.tmp
+log/
 
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
+# out
+**/out/
 
-# Test binary, built with `go test -c`
-*.test
+# Mac
+.DS_Store
 
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
-
-# Dependency directories (remove the comment below to include it)
-vendor/
-
-.idea
+# others
+*.jar
+*.war
+*.zip
+*.tar
+*.tar.gz
+*.pid
+*.orig
+temp/
