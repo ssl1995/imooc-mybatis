@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--驼峰命名转换：将数据库字段goods_id对应为goodsId映射到类属性-->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <!--配置插件-->
+    <plugins>
+        <!--配置pageHelper插件-->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!--设置数据库类型-->
+            <property name="heplerDialect" value="mysql"/>
+            <!--设置合理化：为true，例如<最低页，默认查询第一页-->
+            <property name="reasonable" value="true"/>
+        </plugin>
+    </plugins>
+
+    <!--默认使用dev环境的数据源配置-->
+    <environments default="dev">
+        <!--开发环境-->
+        <environment id="dev">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url"
+                          value="jdbc:mysql://localhost:3306/babytun?useUnicode=true&amp;characterEncoding=UTF-8"/>
+                <property name="username" value="root"/>
+                <property name="password" value="admin123"/>
+            </dataSource>
+        </environment>
+        <!--生产-->
+        <environment id="prd">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url"
+                          value="jdbc:mysql://localhost:3306/babytun?useUnicode=true&amp;characterEncoding=UTF-8"/>
+                <property name="username" value="root"/>
+                <property name="password" value="admin123"/>
+            </dataSource>
+        </environment>
+
+    </environments>
+
+    <mappers>
+        <mapper resource="mappers/Goods.xml"/>
+        <mapper resource="mappers/goodsDetail.xml"/>
+    </mappers>
+
+
+</configuration>
