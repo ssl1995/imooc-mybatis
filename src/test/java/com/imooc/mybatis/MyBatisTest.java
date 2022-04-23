@@ -2,6 +2,7 @@ package com.imooc.mybatis;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Lists;
 import com.imooc.mybatis.dto.GoodsDto;
 import com.imooc.mybatis.entity.Goods;
 import com.imooc.mybatis.entity.GoodsDetail;
@@ -12,12 +13,14 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Test;
 
 import javax.sound.midi.Soundbank;
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -329,6 +332,69 @@ public class MyBatisTest {
             System.out.println("开始行号：" + selectManyToOne.getStartRow());
             System.out.println("结束行号：" + selectManyToOne.getEndRow());
             System.out.println("当前数据：" + selectManyToOne.getResult());
+        } catch (Exception e) {
+            if (sqlSession != null) {
+                // 新增失败，需要回滚
+                sqlSession.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            MybatisUtils.closeSqlSession(sqlSession);
+        }
+
+    }
+
+    @Test
+    public void bathInsertTest() {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MybatisUtils.openSqlSession();
+            long startTime = System.currentTimeMillis();
+            List<Goods> list = Lists.newArrayList();
+            for (int i = 0; i < 10000; i++) {
+                Goods good = Goods.builder()
+                        .title("批量导入商品")
+                        .subTitle("批量导入商品-子标题")
+                        .originalCost(200f)
+                        .currentPrice(100f)
+                        .discount(0.5f)
+                        .isFreeDelivery(1)
+                        .categoryId(43).build();
+                list.add(good);
+            }
+            sqlSession.insert("batchInsert", list);
+            sqlSession.commit();
+
+            long endTime = System.currentTimeMillis();
+            System.out.println("执行时间：" + (endTime - startTime) + "毫秒");
+
+
+        } catch (Exception e) {
+            if (sqlSession != null) {
+                // 新增失败，需要回滚
+                sqlSession.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            MybatisUtils.closeSqlSession(sqlSession);
+        }
+
+    }
+
+    @Test
+    public void bathDeleteTest() {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MybatisUtils.openSqlSession();
+            long startTime = System.currentTimeMillis();
+            List<Integer> list = Lists.newArrayList(1920,1921,1922);
+            sqlSession.insert("bathDelete", list);
+            sqlSession.commit();
+
+            long endTime = System.currentTimeMillis();
+            System.out.println("执行时间：" + (endTime - startTime) + "毫秒");
+
+
         } catch (Exception e) {
             if (sqlSession != null) {
                 // 新增失败，需要回滚
